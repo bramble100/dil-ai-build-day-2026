@@ -136,6 +136,9 @@ dist/
 # TernJS port file
 .tern-port
 
+# Editor / IDE
+.vscode/
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
@@ -150,7 +153,7 @@ temp/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*

@@ -1,0 +1,8 @@
+{
+  "name": "dil-ai-build-day-2026",
+  "private": true,
+  "scripts": {
+    "api": "pnpm --filter api",
+    "ui": "pnpm --filter ui"
+  }
+}

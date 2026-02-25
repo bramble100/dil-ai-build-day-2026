@@ -1,0 +1,39 @@
+---
+globs: *.tsx,*.css
+alwaysApply: false
+---
+
+# CSS Modules Convention
+
+Always use **CSS modules** for component styles. Do not use inline styles or plain `.css` files for component-specific styles.
+
+## Usage
+
+- Name files `*.module.css` (e.g. `Button.module.css`, `HealthCheck.module.css`)
+- Import as a module: `import styles from "./Component.module.css"`
+- Apply via `className={styles.className}`
+
+## Example
+
+```tsx
+// Component.tsx
+import styles from "./Component.module.css";
+
+export function Component() {
+  return <div className={styles.container}>...</div>;
+}
+```
+
+```css
+/* Component.module.css */
+.container {
+  padding: 1rem;
+  background: #fff;
+}
+```
+
+## Do Not
+
+- Use inline `style={{}}` for component styles
+- Use plain `.css` imports for component-scoped styles
+- Use global class names that could collide (e.g. `.button`, `.output` without modules)

@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: API Gateway + Lambda
+
+Parameters:
+  BedrockInvokePolicyArn:
+    Type: String
+  QuizTableName:
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 30
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+    Cors:
+      AllowOrigin: "'*'"
+      AllowMethods: "'GET,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization'"
+
+Resources:
+  QuizAppApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../quiz-api
+      Handler: app.lambdaHandler
+      Runtime: nodejs24.x
+      Architectures:
+        - x86_64
+      Policies:
+        - !Ref BedrockInvokePolicyArn
+      Environment:
+        Variables:
+          QUIZ_TABLE_NAME: !Ref QuizTableName
+      Events:
+        CreateQuiz:
+          Type: Api
+          Properties:
+            Path: /create
+            Method: get
+        SubmitAnswers:
+          Type: Api
+          Properties:
+            Path: /submit
+            Method: get
+        EvaluateAnswers:
+          Type: Api
+          Properties:
+            Path: /evaluate
+            Method: get
+        HealthCheck:
+          Type: Api
+          Properties:
+            Path: /healthz
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+
+Outputs:
+  ApiBaseUrl:
+    Description: API base URL (Prod stage)
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod'
+  FunctionArn:
+    Description: Quiz Lambda Function ARN
+    Value: !GetAtt QuizAppApiFunction.Arn
+  FunctionRoleArn:
+    Description: Quiz Lambda Role ARN
+    Value: !GetAtt QuizAppApiFunctionRole.Arn

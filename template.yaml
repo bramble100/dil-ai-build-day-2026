@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AI Quiz Generator App (dil-ai-build-day-2026)
+
+Globals:
+  Function:
+    Timeout: 30
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+
+Resources:
+  FrontendStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/frontend/template.yaml
+
+  BedrockStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/bedrock/template.yaml
+
+  DynamoStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/dynamo/template.yaml
+
+  QuizApiStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/quiz-api/template.yaml
+      Parameters:
+        BedrockInvokePolicyArn: !GetAtt BedrockStack.Outputs.BedrockInvokePolicyArn
+        QuizTableName: !GetAtt DynamoStack.Outputs.QuizTableName
+
+Outputs:
+  FrontendBucketName:
+    Value: !GetAtt FrontendStack.Outputs.FrontendBucketName
+  FrontendWebsiteUrl:
+    Value: !GetAtt FrontendStack.Outputs.FrontendWebsiteUrl

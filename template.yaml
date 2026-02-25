@@ -10,31 +10,34 @@ Globals:
     TracingEnabled: true
 
 Resources:
-  FrontendStack:
+  DynamoDbStack:
     Type: AWS::Serverless::Application
     Properties:
-      Location: stacks/frontend/template.yaml
+      Location: stacks/dynamodb/template.yaml
 
   BedrockStack:
     Type: AWS::Serverless::Application
     Properties:
       Location: stacks/bedrock/template.yaml
 
-  DynamoStack:
+  ApiStack:
     Type: AWS::Serverless::Application
     Properties:
-      Location: stacks/dynamo/template.yaml
-
-  QuizApiStack:
-    Type: AWS::Serverless::Application
-    Properties:
-      Location: stacks/quiz-api/template.yaml
+      Location: stacks/api/template.yaml
       Parameters:
         BedrockInvokePolicyArn: !GetAtt BedrockStack.Outputs.BedrockInvokePolicyArn
-        QuizTableName: !GetAtt DynamoStack.Outputs.QuizTableName
+        QuizTableArn: !GetAtt DynamoDbStack.Outputs.QuizTableArn
+        QuizTableName: !GetAtt DynamoDbStack.Outputs.QuizTableName
+
+  FrontendStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/frontend/template.yaml
 
 Outputs:
   FrontendBucketName:
     Value: !GetAtt FrontendStack.Outputs.FrontendBucketName
   FrontendWebsiteUrl:
     Value: !GetAtt FrontendStack.Outputs.FrontendWebsiteUrl
+  ApiGatewayUrl:
+    Value: !GetAtt ApiStack.Outputs.ApiBaseUrl

@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: DynamoDB stack (simple table)
 
@@ -6,17 +6,24 @@ Resources:
   QuizTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: !Sub '${AWS::StackName}-quiz'
+      TableName: !Sub "${AWS::StackName}-quiz"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: pk
           AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
       KeySchema:
         - AttributeName: pk
           KeyType: HASH
-
+        - AttributeName: sk
+          KeyType: RANGE
 Outputs:
   QuizTableName:
     Value: !Ref QuizTable
+    Export:
+      Name: QuizTableName
   QuizTableArn:
     Value: !GetAtt QuizTable.Arn
+    Export:
+      Name: QuizTableArn

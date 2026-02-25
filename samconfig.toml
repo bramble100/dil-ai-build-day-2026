@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "dil-ai-build-day-2026"
+stack_name = "QuizGeneratorApp"
 
 [default.build.parameters]
 cached = true

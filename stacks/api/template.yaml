@@ -16,7 +16,7 @@ Globals:
     Tracing: Active
     Environment:
       Variables:
-        TABLE_NAME: !ImportValue QuizTableName
+        TABLE_NAME: !Ref QuizTableName
 
   Api:
     TracingEnabled: true
@@ -39,7 +39,10 @@ Resources:
             - Effect: Allow
               Action:
                 - dynamodb:PutItem
-              Resource: !ImportValue QuizTableArn
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+                - dynamodb:Query
+              Resource: !Ref QuizTableArn
       Events:
         CreateQuiz:
           Type: Api

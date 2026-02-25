@@ -9,10 +9,10 @@ const saveQuiz = async (quiz: Quiz): Promise<PutCommandOutput> => {
   const command = new PutCommand({
     TableName: process.env.TABLE_NAME!,
     Item: {
-      pk: `QUIZ#${quiz.id}`,
-      sk: 'META',
+      PK: `QUIZ#${quiz.id}`,
       topic: quiz.topic,
       difficulty: quiz.difficulty,
+      questions: quiz.questions,
     },
   });
 

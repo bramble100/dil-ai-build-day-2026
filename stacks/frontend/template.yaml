@@ -26,7 +26,7 @@ Resources:
             Effect: Allow
             Principal: "*"
             Action: "s3:GetObject"
-            Resource: !Sub "${FrontendBucket.Arn}/*"
+            Resource: !Sub "arn:aws:s3:::${FrontendBucket}/*"
 
 Outputs:
   FrontendBucketName:

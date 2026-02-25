@@ -1,62 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Quiz App</title>
-    <style>
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        margin: 0;
-        padding: 2rem;
-        background: #f5f7fa;
-        color: #222;
-      }
-      h1 {
-        margin-bottom: 1rem;
-      }
-      button {
-        padding: 0.6rem 1rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background: #2563eb;
-        color: white;
-      }
-      button:hover {
-        opacity: 0.9;
-      }
-      pre {
-        margin-top: 1rem;
-        padding: 1rem;
-        background: #111;
-        color: #0f0;
-        overflow-x: auto;
-      }
-    </style>
+    <title>frontend-app</title>
   </head>
   <body>
-    <h1>AI Quiz App</h1>
-    <button onclick="healthCheck()">Check API Health</button>
-
-    <pre id="output"></pre>
-
-    <script>
-      const API_BASE = "https://1jvj6y30f2.execute-api.eu-central-1.amazonaws.com/Prod";
-
-      async function healthCheck() {
-        const output = document.getElementById("output");
-        output.textContent = "Calling API...";
-
-        try {
-          const res = await fetch(`${API_BASE}/healthz`);
-          const text = await res.text();
-          output.textContent = `Status: ${res.status}\n\n${text}`;
-        } catch (err) {
-          output.textContent = "Error: " + err.message;
-        }
-      }
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -4,6 +4,6 @@
   "scripts": {
     "api": "pnpm --filter api run",
     "ui": "pnpm --filter ui run",
-    "api:dev": "sam build && sam local start-api"
+    "api:dev": "bash scripts/api-dev.sh"
   }
 }

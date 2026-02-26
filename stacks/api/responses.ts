@@ -1,27 +1,30 @@
-import { APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { getCorsHeaders } from './cors';
 
-export const ok = (body?: unknown): APIGatewayProxyResult => jsonResponse(200, body);
+export const ok = (event: APIGatewayProxyEvent, body?: unknown): APIGatewayProxyResult =>
+  jsonResponse(event, 200, body);
 
-export const notFound = (path: string) => textResponse(404, path);
+export const notFound = (event: APIGatewayProxyEvent, path: string): APIGatewayProxyResult =>
+  textResponse(event, 404, path);
 
-export const jsonResponse = (statusCode: number, data: unknown): APIGatewayProxyResult => ({
-  statusCode,
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-  },
-  body: JSON.stringify(data),
-});
+function jsonResponse(event: APIGatewayProxyEvent, statusCode: number, data: unknown): APIGatewayProxyResult {
+  return {
+    statusCode,
+    headers: {
+      'Content-Type': 'application/json',
+      ...getCorsHeaders(event),
+    },
+    body: JSON.stringify(data),
+  };
+}
 
-export const textResponse = (statusCode: number, data: unknown): APIGatewayProxyResult => ({
-  statusCode,
-  headers: {
-    'Content-Type': 'text/plain',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-  },
-  body: JSON.stringify(data),
-});
+function textResponse(event: APIGatewayProxyEvent, statusCode: number, data: unknown): APIGatewayProxyResult {
+  return {
+    statusCode,
+    headers: {
+      'Content-Type': 'text/plain',
+      ...getCorsHeaders(event),
+    },
+    body: JSON.stringify(data),
+  };
+}

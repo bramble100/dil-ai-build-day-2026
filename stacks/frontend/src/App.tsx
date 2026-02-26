@@ -1,11 +1,15 @@
-import { HealthCheck } from "./components/HealthCheck";
+import { Routes, Route } from "react-router";
+import { Home } from "./pages/Home";
+import { Health } from "./pages/Health";
 import styles from "./App.module.css";
 
 function App() {
   return (
     <div className={styles.app}>
-      <h1>AI Quiz App</h1>
-      <HealthCheck />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/health" element={<Health />} />
+      </Routes>
     </div>
   );
 }

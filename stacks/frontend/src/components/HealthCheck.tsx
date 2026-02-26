@@ -3,7 +3,7 @@ import { API_BASE } from "../config";
 import styles from "./HealthCheck.module.css";
 
 export function HealthCheck() {
-  const [output, setOutput] = useState<string>("");
+  const [output, setOutput] = useState("");
 
   async function handleHealthCheck() {
     setOutput("Calling API...");

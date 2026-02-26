@@ -19,7 +19,7 @@ export const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   const quiz = createQuiz();
   const result = await saveQuiz(quiz);
 
-  return ok({ quiz, result });
+  return ok(event, { quiz, result });
 };
 
 export default createHandler;

@@ -9,6 +9,9 @@ Parameters:
     Type: String
   QuizTableName:
     Type: String
+  CorsAllowedOrigins:
+    Type: String
+    Default: 'http://localhost:5173'
 
 Globals:
   Function:
@@ -17,12 +20,13 @@ Globals:
     Environment:
       Variables:
         TABLE_NAME: !Ref QuizTableName
+        CORS_ALLOWED_ORIGINS: !Ref CorsAllowedOrigins
 
   Api:
     TracingEnabled: true
     Cors:
-      AllowOrigin: "'*'"
-      AllowMethods: "'GET,OPTIONS'"
+      AllowOrigin: !Sub "'${CorsAllowedOrigins}'"
+      AllowMethods: "'GET,OPTIONS,POST'"
       AllowHeaders: "'Content-Type,Authorization'"
 
 Resources:
@@ -33,6 +37,7 @@ Resources:
       Handler: app.lambdaHandler
       Runtime: nodejs20.x
       Architectures: [x86_64]
+      MemorySize: 1024
       Policies:
         - !Ref BedrockInvokePolicyArn
         - Statement:

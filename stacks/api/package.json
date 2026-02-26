@@ -1,5 +1,5 @@
 {
-    "name": "quiz_app",
+    "name": "api",
     "version": "1.0.0",
     "description": "hello world sample for NodeJS",
     "main": "app.js",
@@ -10,7 +10,7 @@
         "unit": "jest",
         "lint": "eslint '*.ts' --quiet --fix",
         "compile": "tsc",
-        "test": "npm run compile && npm run unit"
+        "test": "pnpm run compile && pnpm run unit"
     },
     "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.997.0",

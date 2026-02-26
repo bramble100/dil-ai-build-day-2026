@@ -28,6 +28,7 @@ Resources:
         BedrockInvokePolicyArn: !GetAtt BedrockStack.Outputs.BedrockInvokePolicyArn
         QuizTableArn: !GetAtt DynamoDbStack.Outputs.QuizTableArn
         QuizTableName: !GetAtt DynamoDbStack.Outputs.QuizTableName
+        CorsAllowedOrigins: !GetAtt FrontendStack.Outputs.FrontendWebsiteUrl
 
   FrontendStack:
     Type: AWS::Serverless::Application

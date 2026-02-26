@@ -141,6 +141,119 @@ Codename: `dil-ai-build-day-2026`
 - DynamoDB (database)
 - Bedrock (AI modell)
 
+## Local development
+
+### Prerequisites
+
+**1. SAM CLI**
+
+```bash
+# macOS (Homebrew)
+brew install aws-sam-cli
+
+# Verify
+sam --version
+```
+
+Or use the [official installer](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) (macOS `.pkg` for arm64 or x86_64).
+
+**2. Docker**
+
+SAM local runs Lambda in Docker containers. Verify Docker is running:
+
+```bash
+docker --version
+docker info
+```
+
+If Docker is not installed or not running:
+
+- **macOS**: [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) or [Colima](https://github.com/abiosoft/colima) (`brew install colima docker` then `colima start`)
+- **Linux**: `sudo apt install docker.io` (Ubuntu) or equivalent, then `sudo systemctl start docker`
+
+**3. AWS CLI** (optional for local health check)
+
+Required for `sam deploy` and for handlers that use DynamoDB/Bedrock (create, submit, evaluate). The health check works without it.
+
+```bash
+aws configure
+```
+
+### Run the API locally
+
+From the **project root**:
+
+```bash
+pnpm api:dev
+```
+
+This runs `sam build` and `sam local start-api`. If you use [Colima](https://github.com/abiosoft/colima), the script sets `DOCKER_HOST` automatically so SAM can find the Docker socket.
+
+To run the commands directly:
+
+```bash
+sam build
+sam local start-api
+```
+
+The API runs at `http://localhost:3000`. Test the health check:
+
+```bash
+curl http://localhost:3000/healthz
+```
+
+### Run the frontend
+
+In a second terminal:
+
+```bash
+pnpm ui dev
+```
+
+Open `http://localhost:5173`, go to `/health`, and click "Check API Health". The frontend uses `http://localhost:3000` by default in dev.
+
+### Troubleshooting: 502 / "signal: killed" / CORS
+
+If the health check returns 502 or you see "Runtime exited with error: signal: killed" in the terminal, the Lambda container is likely running out of memory during init. The template sets `MemorySize: 512` to avoid this. If it persists, try 1024.
+
+The CORS error in the browser appears because when the Lambda crashes, SAM returns a 502 without CORS headers. Fixing the Lambda crash resolves both.
+
+### Troubleshooting: "container runtime" error with Colima
+
+If `sam local start-api` fails with "Do you have Docker or Finch installed and running?" even though `docker ps` works, SAM may not be finding Colima's Docker socket.
+
+**Preferred:** Use `pnpm api:dev`, which sets `DOCKER_HOST` automatically when the Colima socket is present.
+
+**Manual:** If you run `sam` directly, set `DOCKER_HOST` before the command:
+
+```bash
+export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+sam local start-api
+```
+
+Alternatively, add to `~/.zshrc` or `~/.zshenv` for persistence.
+
+---
+
+## Deployment
+
+### Backend (SAM)
+
+```bash
+sam build
+sam deploy
+```
+
+### Frontend (Vite → S3)
+
+The frontend is a React + Vite app. SAM creates the S3 bucket; the built assets are synced separately:
+
+```bash
+pnpm deploy:ui
+```
+
+This builds the UI (`pnpm ui build`) and syncs `stacks/frontend/dist/` to the frontend S3 bucket. Run `sam deploy` first so the bucket exists.
+
 ## Technologies
 
 ### Development

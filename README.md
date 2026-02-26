@@ -244,6 +244,16 @@ sam build
 sam deploy
 ```
 
+### Frontend (Vite → S3)
+
+The frontend is a React + Vite app. SAM creates the S3 bucket; the built assets are synced separately:
+
+```bash
+pnpm deploy:ui
+```
+
+This builds the UI (`pnpm ui build`) and syncs `stacks/frontend/dist/` to the frontend S3 bucket. Run `sam deploy` first so the bucket exists.
+
 ## Technologies
 
 ### Development

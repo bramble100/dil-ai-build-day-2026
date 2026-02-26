@@ -2,7 +2,8 @@
   "name": "dil-ai-build-day-2026",
   "private": true,
   "scripts": {
-    "api": "pnpm --filter api",
-    "ui": "pnpm --filter ui"
+    "api": "pnpm --filter api run",
+    "ui": "pnpm --filter ui run",
+    "api:dev": "sam build && sam local start-api"
   }
 }

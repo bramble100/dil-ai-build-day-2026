@@ -20,6 +20,11 @@ Resources:
     Properties:
       Location: stacks/bedrock/template.yaml
 
+  UploadsStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/uploads/template.yaml
+
   ApiStack:
     Type: AWS::Serverless::Application
     Properties:
@@ -28,6 +33,8 @@ Resources:
         BedrockInvokePolicyArn: !GetAtt BedrockStack.Outputs.BedrockInvokePolicyArn
         QuizTableArn: !GetAtt DynamoDbStack.Outputs.QuizTableArn
         QuizTableName: !GetAtt DynamoDbStack.Outputs.QuizTableName
+        UploadsBucketName: !GetAtt UploadsStack.Outputs.UploadsBucketName
+        UploadsBucketArn: !GetAtt UploadsStack.Outputs.UploadsBucketArn
 
   FrontendStack:
     Type: AWS::Serverless::Application

@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Private S3 bucket for PDF uploads
+
+Resources:
+  UploadsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      # Fully private - Lambda accesses via IAM role, no public access
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      # Auto-delete uploaded PDFs after 30 days to control storage costs
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireUploads
+            Status: Enabled
+            ExpirationInDays: 30
+
+Outputs:
+  UploadsBucketName:
+    Value: !Ref UploadsBucket
+  UploadsBucketArn:
+    Value: !GetAtt UploadsBucket.Arn

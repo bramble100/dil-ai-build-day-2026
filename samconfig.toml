@@ -16,6 +16,8 @@ lint = true
 capabilities = "CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 confirm_changeset = true
 resolve_s3 = true
+region = "eu-central-1"
+profile = "922860206839_AdministratorAccess"
 
 [default.package.parameters]
 resolve_s3 = true

@@ -1,0 +1,23 @@
+{
+	"name": "dil-ai-build-day-2026",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"deploy": "sam deploy && node scripts/postdeploy-config.mjs",
+		"update-api-url": "node scripts/postdeploy-config.mjs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bramble100/dil-ai-build-day-2026.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/bramble100/dil-ai-build-day-2026/issues"
+	},
+	"homepage": "https://github.com/bramble100/dil-ai-build-day-2026#readme"
+}

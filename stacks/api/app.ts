@@ -1,18 +1,22 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { notFound, ok } from './responses';
 import createHandler from './handlers/createHandler';
+import createMcpHandler from './handlers/createMcpHandler';
 import uploadHandler from './handlers/uploadHandler';
 import evaluateHandler from './handlers/evaluateHandler';
 import submitHandler from './handlers/submitHandler';
 import healthCheckHandler from './handlers/healthCheckHandler';
+import chatHandler from './handlers/chatHandler';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const routes: Record<string, () => any> = {
       '/create': () => createHandler(event),
+      '/create-mcp': () => createMcpHandler(event),
       '/upload': () => uploadHandler(event),
       '/submit': () => submitHandler(event),
       '/evaluate': () => evaluateHandler(event),
+      '/chat': () => chatHandler(event),
       '/healthz': () => healthCheckHandler(event),
     };
 

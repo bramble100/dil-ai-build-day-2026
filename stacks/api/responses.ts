@@ -9,7 +9,7 @@ export const jsonResponse = (statusCode: number, data: unknown): APIGatewayProxy
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,OPTIONS',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type,Authorization',
   },
   body: JSON.stringify(data),
@@ -20,7 +20,7 @@ export const textResponse = (statusCode: number, data: unknown): APIGatewayProxy
   headers: {
     'Content-Type': 'text/plain',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,OPTIONS',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type,Authorization',
   },
   body: JSON.stringify(data),

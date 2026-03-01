@@ -20,12 +20,22 @@ export interface Question {
   questionText: string;
   choices: Record<ChoiceKey, string>;
   correctChoice: ChoiceKey;
-  explanation?: string; // some markdwon text
+  explanation?: string;
 }
+
+/** Question shape returned to the client — answer fields omitted. */
+export type ClientQuestion = Omit<Question, 'correctChoice' | 'explanation'>;
+
+export const toClientQuestion = ({ correctChoice, explanation, ...rest }: Question): ClientQuestion => rest;
 
 export interface QuestionUserResponse {
   quizId: string;
   questionId: number;
   selectedChoice: ChoiceKey;
   isCorrect: boolean;
+}
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
 }

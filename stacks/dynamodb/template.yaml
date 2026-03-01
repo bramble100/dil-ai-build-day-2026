@@ -15,6 +15,22 @@ Resources:
         - AttributeName: PK
           KeyType: HASH
 
+  ActivityTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-activity"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: dogName
+          AttributeType: S
+        - AttributeName: activityId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: dogName
+          KeyType: HASH
+        - AttributeName: activityId
+          KeyType: RANGE
+
 Outputs:
   QuizTableName:
     Value: !Ref QuizTable
@@ -24,3 +40,7 @@ Outputs:
     Value: !GetAtt QuizTable.Arn
     Export:
       Name: QuizTableArn
+  ActivityTableName:
+    Value: !Ref ActivityTable
+  ActivityTableArn:
+    Value: !GetAtt ActivityTable.Arn

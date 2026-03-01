@@ -1,0 +1,22 @@
+{
+  "name": "mcp_server",
+  "version": "1.0.0",
+  "description": "MCP server exposing vizsla knowledge tools",
+  "main": "app.js",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.997.0",
+    "@aws-sdk/client-dynamodb": "^3.997.0",
+    "@aws-sdk/lib-dynamodb": "^3.997.0",
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92",
+    "@types/node": "^20.5.7",
+    "esbuild": "^0.14.14",
+    "typescript": "^5.0.0"
+  }
+}

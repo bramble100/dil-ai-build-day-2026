@@ -13,10 +13,8 @@ import { ChoiceKey, Question, Quiz, QuizConfig } from '../types';
 const model = new ChatBedrockConverse({
   model: process.env.BEDROCK_MODEL_ID ?? 'anthropic.claude-3-haiku-20240307-v1:0',
   region: process.env.AWS_REGION,
-  modelKwargs: {
-    max_tokens: 4096,
-    temperature: 0.3,
-  },
+  maxTokens: 4096,
+  temperature: 0.3,
 });
 
 // ---------------------------------------------------------------------------
@@ -47,7 +45,7 @@ const sanitizeJson = (raw: string): string =>
  * Parses the JSON string from Claude with a JSON5 fallback.
  * JSON5 tolerates trailing commas and single quotes that survive sanitization.
  */
-const parseJson = (raw: string, context: string): any => {
+export const parseJson = (raw: string, context: string): any => {
   const sanitized = sanitizeJson(raw);
   try {
     return JSON.parse(sanitized);
@@ -145,10 +143,7 @@ const extractTextFromPdf = async (pdfBuffer: Buffer): Promise<string> => {
  * @param pdfBuffer - Raw bytes of the uploaded PDF
  * @param config - QuizConfig (topic is used as a label; difficulty and questionCount drive the prompt)
  */
-export const createQuizFromUploadedFile = async (
-  pdfBuffer: Buffer,
-  config: QuizConfig,
-): Promise<Quiz> => {
+export const createQuizFromUploadedFile = async (pdfBuffer: Buffer, config: QuizConfig): Promise<Quiz> => {
   const documentText = await extractTextFromPdf(pdfBuffer);
 
   if (documentText.length === 0) {

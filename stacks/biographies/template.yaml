@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Private S3 bucket for vizsla biography text files
+
+Resources:
+  BiographiesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+
+Outputs:
+  BiographiesBucketName:
+    Value: !Ref BiographiesBucket
+  BiographiesBucketArn:
+    Value: !GetAtt BiographiesBucket.Arn

@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { jsonResponse, ok } from '../responses';
-import { Difficulty, QuizConfig } from '../types';
+import { Difficulty, QuizConfig, toClientQuestion } from '../types';
 import { createQuizFromUploadedFile } from '../bedrock/createQuiz';
 import { uploadPdf } from '../s3/uploadPdf';
 import saveQuiz from '../dynamodb/saveQuiz';
@@ -42,10 +42,7 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
 
   // Validate optional topic label (used as a descriptive name for the quiz)
   const rawTopic = body.topic;
-  const topic =
-    typeof rawTopic === 'string' && rawTopic.trim().length > 0
-      ? rawTopic.trim()
-      : 'Uploaded document';
+  const topic = typeof rawTopic === 'string' && rawTopic.trim().length > 0 ? rawTopic.trim() : 'Uploaded document';
 
   // Validate optional difficulty
   const rawDifficulty = body.difficulty;
@@ -57,9 +54,7 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   // Validate optional question count
   const rawCount = body.count;
   const questionCount =
-    typeof rawCount === 'number' && rawCount > 0 && rawCount <= 20
-      ? rawCount
-      : DEFAULT_QUESTION_COUNT;
+    typeof rawCount === 'number' && rawCount > 0 && rawCount <= 20 ? rawCount : DEFAULT_QUESTION_COUNT;
 
   const config: QuizConfig = { topic, difficulty, questionCount };
 
@@ -80,7 +75,7 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     quizId: quiz.id,
     topic: quiz.topic,
     difficulty: quiz.difficulty,
-    questions: quiz.questions,
+    questions: quiz.questions.map(toClientQuestion),
   });
 };
 

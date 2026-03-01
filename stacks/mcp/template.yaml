@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: MCP server — vizsla knowledge tools (biography, activities)
+
+Parameters:
+  BiographiesBucketName:
+    Type: String
+  BiographiesBucketArn:
+    Type: String
+  ActivityTableName:
+    Type: String
+  ActivityTableArn:
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 30
+    Tracing: Active
+    Runtime: nodejs20.x
+    Architectures: [x86_64]
+    Environment:
+      Variables:
+        BIOGRAPHIES_BUCKET: !Ref BiographiesBucketName
+        ACTIVITY_TABLE: !Ref ActivityTableName
+
+Resources:
+  McpServerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../mcp
+      Handler: app.lambdaHandler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Sub "${BiographiesBucketArn}/biographies/*"
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+                - dynamodb:GetItem
+              Resource: !Ref ActivityTableArn
+      Events:
+        McpEndpoint:
+          Type: Api
+          Properties:
+            Path: /mcp
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints: [app.ts]
+
+Outputs:
+  McpServerUrl:
+    Description: MCP server endpoint URL
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/mcp'

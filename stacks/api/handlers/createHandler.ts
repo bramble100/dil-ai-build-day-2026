@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { jsonResponse, ok } from '../responses';
-import { Difficulty, QuizConfig } from '../types';
+import { Difficulty, QuizConfig, toClientQuestion } from '../types';
 import { createCustomTopicQuiz } from '../bedrock/createQuiz';
 import saveQuiz from '../dynamodb/saveQuiz';
 
@@ -34,9 +34,7 @@ export const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   // Validate questionCount (optional, falls back to default)
   const rawCount = body.count;
   const questionCount =
-    typeof rawCount === 'number' && rawCount > 0 && rawCount <= 20
-      ? rawCount
-      : DEFAULT_QUESTION_COUNT;
+    typeof rawCount === 'number' && rawCount > 0 && rawCount <= 20 ? rawCount : DEFAULT_QUESTION_COUNT;
 
   const config: QuizConfig = {
     topic: topic.trim(),
@@ -55,7 +53,7 @@ export const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     quizId: quiz.id,
     topic: quiz.topic,
     difficulty: quiz.difficulty,
-    questions: quiz.questions,
+    questions: quiz.questions.map(toClientQuestion),
   });
 };
 

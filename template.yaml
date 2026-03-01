@@ -25,6 +25,21 @@ Resources:
     Properties:
       Location: stacks/uploads/template.yaml
 
+  BiographiesStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/biographies/template.yaml
+
+  McpStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: stacks/mcp/template.yaml
+      Parameters:
+        BiographiesBucketName: !GetAtt BiographiesStack.Outputs.BiographiesBucketName
+        BiographiesBucketArn: !GetAtt BiographiesStack.Outputs.BiographiesBucketArn
+        ActivityTableName: !GetAtt DynamoDbStack.Outputs.ActivityTableName
+        ActivityTableArn: !GetAtt DynamoDbStack.Outputs.ActivityTableArn
+
   ApiStack:
     Type: AWS::Serverless::Application
     Properties:
@@ -35,6 +50,7 @@ Resources:
         QuizTableName: !GetAtt DynamoDbStack.Outputs.QuizTableName
         UploadsBucketName: !GetAtt UploadsStack.Outputs.UploadsBucketName
         UploadsBucketArn: !GetAtt UploadsStack.Outputs.UploadsBucketArn
+        McpServerUrl: !GetAtt McpStack.Outputs.McpServerUrl
 
   FrontendStack:
     Type: AWS::Serverless::Application

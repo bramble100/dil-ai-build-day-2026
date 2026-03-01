@@ -43,15 +43,30 @@
     <pre id="output"></pre>
 
     <script>
-      const API_BASE = "https://1jvj6y30f2.execute-api.eu-central-1.amazonaws.com/Prod";
+      let API_BASE = null;
+
+      // Load config.json on page load
+      async function loadConfig() {
+        const res = await fetch("./config.json");
+        if (!res.ok) {
+          throw new Error("Failed to load config.json");
+        }
+        const config = await res.json();
+        API_BASE = config.apiBaseUrl;
+      }
 
       async function healthCheck() {
         const output = document.getElementById("output");
         output.textContent = "Calling API...";
 
         try {
+          if (!API_BASE) {
+            await loadConfig();
+          }
+
           const res = await fetch(`${API_BASE}/healthz`);
           const text = await res.text();
+
           output.textContent = `Status: ${res.status}\n\n${text}`;
         } catch (err) {
           output.textContent = "Error: " + err.message;

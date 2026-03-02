@@ -141,6 +141,138 @@ Codename: `dil-ai-build-day-2026`
 - DynamoDB (database)
 - Bedrock (AI modell)
 
+## Local development
+
+### Prerequisites
+
+**1. SAM CLI**
+
+```bash
+# macOS (Homebrew)
+brew install aws-sam-cli
+
+# Verify
+sam --version
+```
+
+Or use the [official installer](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) (macOS `.pkg` for arm64 or x86_64).
+
+**2. Docker**
+
+SAM local runs Lambda in Docker containers. Verify Docker is running:
+
+```bash
+docker --version
+docker info
+```
+
+If Docker is not installed or not running:
+
+- **macOS**: [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) or [Colima](https://github.com/abiosoft/colima) (`brew install colima docker` then `colima start`)
+- **Linux**: `sudo apt install docker.io` (Ubuntu) or equivalent, then `sudo systemctl start docker`
+
+**3. AWS CLI** (optional for local health check)
+
+Required for `sam deploy` and for handlers that use DynamoDB/Bedrock (create, submit, evaluate). The health check works without it.
+
+```bash
+aws configure
+```
+
+### Run the API locally
+
+From the **project root**:
+
+```bash
+pnpm api:dev
+```
+
+This runs `sam build` and `sam local start-api`. If you use [Colima](https://github.com/abiosoft/colima), the script sets `DOCKER_HOST` automatically so SAM can find the Docker socket.
+
+To run the commands directly:
+
+```bash
+sam build
+sam local start-api
+```
+
+The API runs at `http://localhost:3000`. Test the health check:
+
+```bash
+curl http://localhost:3000/healthz
+```
+
+### Run the frontend
+
+In a second terminal:
+
+```bash
+pnpm ui dev
+```
+
+Open `http://localhost:5173`, go to `/health`, and click "Check API Health". The frontend uses `http://localhost:3000` by default in dev.
+
+### Troubleshooting: 502 / segfault / CORS after restarting the API
+
+If after restarting `pnpm api:dev` the Lambda crashes with a 502 and the terminal shows something like:
+
+```
+Lambda function '...' is already running
+unexpected fault address ...
+fatal error: fault
+[signal SIGSEGV: segmentation violation ...]
+Invalid lambda response received: Lambda response must be valid json
+```
+
+This means a stale Docker container from the previous SAM session was not cleaned up when the process was killed. The new container conflicts with the leftover one, causing the Lambda Runtime Emulator to segfault.
+
+Run the cleanup script, then restart:
+
+```bash
+pnpm api:clean
+pnpm api:dev
+```
+
+`api:clean` removes any leftover SAM Lambda containers and deletes the `.aws-sam` build cache, ensuring a completely fresh start.
+
+The CORS error in the browser (`No 'Access-Control-Allow-Origin' header`) is a side effect of the 502 — SAM error responses don't include CORS headers. Fixing the Lambda crash resolves both.
+
+### Troubleshooting: "container runtime" error with Colima
+
+If `sam local start-api` fails with "Do you have Docker or Finch installed and running?" even though `docker ps` works, SAM may not be finding Colima's Docker socket.
+
+**Preferred:** Use `pnpm api:dev`, which sets `DOCKER_HOST` automatically when the Colima socket is present.
+
+**Manual:** If you run `sam` directly, set `DOCKER_HOST` before the command:
+
+```bash
+export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+sam local start-api
+```
+
+Alternatively, add to `~/.zshrc` or `~/.zshenv` for persistence.
+
+---
+
+## Deployment
+
+### Backend (SAM)
+
+```bash
+sam build
+sam deploy
+```
+
+### Frontend (Vite → S3)
+
+The frontend is a React + Vite app. SAM creates the S3 bucket; the built assets are synced separately:
+
+```bash
+pnpm deploy:ui
+```
+
+This builds the UI (`pnpm ui build`) and syncs `stacks/frontend/dist/` to the frontend S3 bucket. Run `sam deploy` first so the bucket exists.
+
 ## Technologies
 
 ### Development

@@ -51,6 +51,7 @@ Resources:
         UploadsBucketName: !GetAtt UploadsStack.Outputs.UploadsBucketName
         UploadsBucketArn: !GetAtt UploadsStack.Outputs.UploadsBucketArn
         McpServerUrl: !GetAtt McpStack.Outputs.McpServerUrl
+        CorsAllowedOrigins: !GetAtt FrontendStack.Outputs.FrontendWebsiteUrl
 
   FrontendStack:
     Type: AWS::Serverless::Application

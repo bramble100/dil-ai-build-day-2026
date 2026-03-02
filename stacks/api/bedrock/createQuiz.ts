@@ -3,12 +3,16 @@ import { ChatBedrockConverse } from '@langchain/aws';
 import { HumanMessage } from '@langchain/core/messages';
 import JSON5 from 'json5';
 import pdfParse from 'pdf-parse';
+// import mockQuiz from '../examples/quiz.json';
+// import { mapToQuiz } from '../helpers/mapToQuiz'; // mock quiz
 
 import { ChoiceKey, Question, Quiz, QuizConfig } from '../types';
 
 // ---------------------------------------------------------------------------
 // Shared Bedrock model instance
 // ---------------------------------------------------------------------------
+
+// export const createQuiz = (): Quiz => mapToQuiz(mockQuiz);
 
 const model = new ChatBedrockConverse({
   model: process.env.BEDROCK_MODEL_ID ?? 'anthropic.claude-3-haiku-20240307-v1:0',

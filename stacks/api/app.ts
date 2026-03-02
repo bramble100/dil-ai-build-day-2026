@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { notFound, ok } from './responses';
+import { getCorsHeaders } from './cors';
+import { notFound } from './responses';
 import createHandler from './handlers/createHandler';
 import createMcpHandler from './handlers/createMcpHandler';
 import uploadHandler from './handlers/uploadHandler';
@@ -20,11 +21,15 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
       '/healthz': () => healthCheckHandler(event),
     };
 
-    return routes[event.path]?.() ?? notFound(event.path);
+    return routes[event.path]?.() ?? notFound(event, event.path);
   } catch (err) {
     console.log(err);
     return {
       statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        ...getCorsHeaders(event),
+      },
       body: JSON.stringify({
         message: 'some error happened',
       }),

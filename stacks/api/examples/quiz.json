@@ -1,0 +1,43 @@
+{
+  "id": "c10c8750-976c-4cea-bc27-2bdb21a3e0ba",
+  "topic": "JavaScript Basics",
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "aeabd6d2-7782-40a9-83e6-885c09e9bdf3",
+      "questionText": "Which keyword is used to declare a constant in JavaScript?",
+      "choices": {
+        "A": "let",
+        "B": "var",
+        "C": "const",
+        "D": "constant"
+      },
+      "correctChoice": "C",
+      "explanation": "In JavaScript, `const` is used to declare variables whose value cannot be reassigned."
+    },
+    {
+      "id": "d78116ff-62be-4019-a95a-355586f2ec09",
+      "questionText": "What will `typeof null` return in JavaScript?",
+      "choices": {
+        "A": "\"null\"",
+        "B": "\"object\"",
+        "C": "\"undefined\"",
+        "D": "\"number\""
+      },
+      "correctChoice": "B",
+      "explanation": "`typeof null` returns `\"object\"`, which is considered a historical bug in JavaScript."
+    },
+    {
+      "id": "a7d890c5-aaa7-409a-a31b-87a8b86cdbb4",
+      "questionText": "Which method converts a JSON string into a JavaScript object?",
+      "choices": {
+        "A": "JSON.stringify()",
+        "B": "JSON.parse()",
+        "C": "JSON.toObject()",
+        "D": "JSON.convert()"
+      },
+      "correctChoice": "B",
+      "explanation": "`JSON.parse()` converts a valid JSON string into a JavaScript object, while `JSON.stringify()` does the opposite."
+    }
+  ]
+}

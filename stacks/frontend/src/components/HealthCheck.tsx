@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_BASE } from "../config";
+import { api } from "../api";
 import styles from "./HealthCheck.module.css";
 
 export function HealthCheck() {
@@ -9,9 +9,8 @@ export function HealthCheck() {
     setOutput("Calling API...");
 
     try {
-      const res = await fetch(`${API_BASE}/healthz`);
-      const text = await res.text();
-      setOutput(`Status: ${res.status}\n\n${text}`);
+      const text = await api.healthz();
+      setOutput(text);
     } catch (err) {
       setOutput("Error: " + (err instanceof Error ? err.message : String(err)));
     }

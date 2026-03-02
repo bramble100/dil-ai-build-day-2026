@@ -39,13 +39,13 @@ export const createMcpHandler = async (event: APIGatewayProxyEvent): Promise<API
   try {
     body = event.body ? JSON.parse(event.body) : {};
   } catch {
-    return jsonResponse(400, { error: 'Invalid JSON in request body.' });
+    return jsonResponse(event, 400, { error: 'Invalid JSON in request body.' });
   }
 
   // Validate topic
   const rawTopic = body.topic;
   if (!rawTopic || typeof rawTopic !== 'string' || !VALID_TOPICS.includes(rawTopic as Topic)) {
-    return jsonResponse(400, {
+    return jsonResponse(event, 400, {
       error: `topic must be one of: ${VALID_TOPICS.join(', ')}`,
     });
   }
@@ -142,7 +142,7 @@ export const createMcpHandler = async (event: APIGatewayProxyEvent): Promise<API
 
   console.log(`[createMcpHandler] Quiz created: ${quiz.id} (${quiz.questions.length} questions)`);
 
-  return ok({
+  return ok(event, {
     quizId: quiz.id,
     topic: quiz.topic,
     difficulty: quiz.difficulty,

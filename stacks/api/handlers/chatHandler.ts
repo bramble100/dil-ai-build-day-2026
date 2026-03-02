@@ -56,20 +56,20 @@ export const chatHandler = async (event: APIGatewayProxyEvent): Promise<APIGatew
   try {
     body = event.body ? JSON.parse(event.body) : {};
   } catch {
-    return jsonResponse(400, { error: 'Invalid JSON in request body.' });
+    return jsonResponse(event, 400, { error: 'Invalid JSON in request body.' });
   }
 
   // Validate topic — any non-empty string is accepted
   const rawTopic = body.topic;
   if (!rawTopic || typeof rawTopic !== 'string' || rawTopic.trim().length === 0) {
-    return jsonResponse(400, { error: 'topic must be a non-empty string.' });
+    return jsonResponse(event, 400, { error: 'topic must be a non-empty string.' });
   }
   const topic = rawTopic.trim();
 
   // Validate message
   const rawMessage = body.message;
   if (!rawMessage || typeof rawMessage !== 'string' || rawMessage.trim().length === 0) {
-    return jsonResponse(400, { error: 'message must be a non-empty string.' });
+    return jsonResponse(event, 400, { error: 'message must be a non-empty string.' });
   }
   const message = rawMessage.trim();
 
@@ -128,7 +128,7 @@ export const chatHandler = async (event: APIGatewayProxyEvent): Promise<APIGatew
     const response = await model.invoke(messages);
     const reply = typeof response.content === 'string' ? response.content : JSON.stringify(response.content);
     console.log(`[chatHandler] Reply length: ${reply.length}`);
-    return ok({ reply });
+    return ok(event, { reply });
   }
 
   // For MCP-backed topics: agentic loop — Claude may call tools before replying
@@ -172,7 +172,7 @@ export const chatHandler = async (event: APIGatewayProxyEvent): Promise<APIGatew
 
   console.log(`[chatHandler] Reply length: ${reply.length}`);
 
-  return ok({ reply });
+  return ok(event, { reply });
 };
 
 export default chatHandler;

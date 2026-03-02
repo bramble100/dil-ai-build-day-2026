@@ -19,17 +19,17 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   try {
     body = event.body ? JSON.parse(event.body) : {};
   } catch {
-    return jsonResponse(400, { error: 'Invalid JSON in request body.' });
+    return jsonResponse(event, 400, { error: 'Invalid JSON in request body.' });
   }
 
   // Validate the base64-encoded PDF
   const fileBase64 = body.file;
   if (!fileBase64 || typeof fileBase64 !== 'string' || fileBase64.trim().length === 0) {
-    return jsonResponse(400, { error: 'A base64-encoded PDF must be provided in the "file" field.' });
+    return jsonResponse(event, 400, { error: 'A base64-encoded PDF must be provided in the "file" field.' });
   }
 
   if (fileBase64.length > MAX_BASE64_LENGTH) {
-    return jsonResponse(413, { error: 'PDF file exceeds the maximum allowed size of ~7.5MB.' });
+    return jsonResponse(event, 413, { error: 'PDF file exceeds the maximum allowed size of ~7.5MB.' });
   }
 
   // Decode base64 → raw Buffer
@@ -37,7 +37,7 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   try {
     pdfBuffer = Buffer.from(fileBase64, 'base64');
   } catch {
-    return jsonResponse(400, { error: 'Failed to decode the base64 file content.' });
+    return jsonResponse(event, 400, { error: 'Failed to decode the base64 file content.' });
   }
 
   // Validate optional topic label (used as a descriptive name for the quiz)
@@ -71,7 +71,7 @@ export const uploadHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
 
   console.log(`[uploadHandler] Quiz created: ${quiz.id} (${quiz.questions.length} questions)`);
 
-  return ok({
+  return ok(event, {
     quizId: quiz.id,
     topic: quiz.topic,
     difficulty: quiz.difficulty,

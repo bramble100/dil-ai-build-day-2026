@@ -1,11 +1,17 @@
 import { getApiBase } from "./config";
 
+export type HealthzResponse = {
+  status: string;
+  timestamp: string;
+};
+
 export const api = {
-  healthz: () => request<string>("/healthz"),
+  healthz: () => request<HealthzResponse>("/healthz"),
 };
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const base = await getApiBase();
+
   const res = await fetch(`${base}${path}`, {
     headers: { "Content-Type": "application/json", ...init?.headers },
     ...init,

@@ -9,8 +9,8 @@ export function HealthCheck() {
     setOutput("Calling API...");
 
     try {
-      const text = await api.healthz();
-      setOutput(text);
+      const result = await api.healthz();
+      setOutput(`Status: ${result.status}\nTime:   ${result.timestamp}`);
     } catch (err) {
       setOutput("Error: " + (err instanceof Error ? err.message : String(err)));
     }

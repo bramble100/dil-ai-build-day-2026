@@ -212,11 +212,30 @@ pnpm ui dev
 
 Open `http://localhost:5173`, go to `/health`, and click "Check API Health". The frontend uses `http://localhost:3000` by default in dev.
 
-### Troubleshooting: 502 / "signal: killed" / CORS
+### Troubleshooting: 502 / segfault / CORS after restarting the API
 
-If the health check returns 502 or you see "Runtime exited with error: signal: killed" in the terminal, the Lambda container is likely running out of memory during init. The template sets `MemorySize: 512` to avoid this. If it persists, try 1024.
+If after restarting `pnpm api:dev` the Lambda crashes with a 502 and the terminal shows something like:
 
-The CORS error in the browser appears because when the Lambda crashes, SAM returns a 502 without CORS headers. Fixing the Lambda crash resolves both.
+```
+Lambda function '...' is already running
+unexpected fault address ...
+fatal error: fault
+[signal SIGSEGV: segmentation violation ...]
+Invalid lambda response received: Lambda response must be valid json
+```
+
+This means a stale Docker container from the previous SAM session was not cleaned up when the process was killed. The new container conflicts with the leftover one, causing the Lambda Runtime Emulator to segfault.
+
+Run the cleanup script, then restart:
+
+```bash
+pnpm api:clean
+pnpm api:dev
+```
+
+`api:clean` removes any leftover SAM Lambda containers and deletes the `.aws-sam` build cache, ensuring a completely fresh start.
+
+The CORS error in the browser (`No 'Access-Control-Allow-Origin' header`) is a side effect of the 502 — SAM error responses don't include CORS headers. Fixing the Lambda crash resolves both.
 
 ### Troubleshooting: "container runtime" error with Colima
 

@@ -9,23 +9,23 @@ export interface QuizConfig {
 }
 
 export interface Quiz {
-  id: string;
-  topic: string;
+  id: string; // guid v7
+  topic: string; // max 100 characters
   difficulty: Difficulty;
   questions: Question[];
 }
 
 export interface Question {
-  id: string;
-  questionText: string;
+  id: string; // guid v7
+  questionText: string; // max 500 chars
   choices: Record<ChoiceKey, string>;
   correctChoice: ChoiceKey;
-  explanation?: string; // some markdwon text
+  explanation?: string; // some markdwon text, max 1000 characters
 }
 
 export interface QuestionUserResponse {
-  quizId: string;
-  questionId: number;
+  quizId: string; // guid v7
+  questionId: string; // guid v7
   selectedChoice: ChoiceKey;
   isCorrect: boolean;
 }

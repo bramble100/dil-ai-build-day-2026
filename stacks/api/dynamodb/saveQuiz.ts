@@ -1,15 +1,12 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, PutCommandOutput } from '@aws-sdk/lib-dynamodb';
+import { PutCommandOutput, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { Quiz } from '../types';
-
-const client = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(client);
+import { createQuizPrimaryKey, docClient } from './dynamo';
 
 const saveQuiz = async (quiz: Quiz): Promise<PutCommandOutput> => {
   const command = new PutCommand({
     TableName: process.env.TABLE_NAME!,
     Item: {
-      PK: `QUIZ#${quiz.id}`,
+      PK: createQuizPrimaryKey(quiz.id),
       topic: quiz.topic,
       difficulty: quiz.difficulty,
       questions: quiz.questions,

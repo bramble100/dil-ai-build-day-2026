@@ -35,10 +35,11 @@ Resources:
     Properties:
       CodeUri: ../api
       Handler: app.lambdaHandler
-      Runtime: nodejs20.x
+      Runtime: nodejs24.x
       Architectures: [x86_64]
       MemorySize: 1024
       Policies:
+        - AWSLambdaBasicExecutionRole
         - !Ref BedrockInvokePolicyArn
         - Statement:
             - Effect: Allow
@@ -54,6 +55,11 @@ Resources:
           Properties:
             Path: /create
             Method: get
+        GetQuizById:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: GET
         SubmitAnswers:
           Type: Api
           Properties:

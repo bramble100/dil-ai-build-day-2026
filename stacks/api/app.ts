@@ -1,21 +1,23 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { getCorsHeaders } from './cors';
-import { notFound } from './responses';
 import createHandler from './handlers/createHandler';
 import evaluateHandler from './handlers/evaluateHandler';
-import submitHandler from './handlers/submitHandler';
+import getByIdHandler from './handlers/getByIdHandler';
 import healthCheckHandler from './handlers/healthCheckHandler';
+import submitHandler from './handlers/submitHandler';
+import { notFound } from './responses';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const routes: Record<string, () => any> = {
       '/create': () => createHandler(event),
+      '/{id}': () => getByIdHandler(event),
       '/submit': () => submitHandler(event),
       '/evaluate': () => evaluateHandler(event),
       '/healthz': () => healthCheckHandler(event),
     };
 
-    return routes[event.path]?.() ?? notFound(event, event.path);
+    return routes[(event as any).resource ?? event.path]?.() ?? notFound(event, event.path);
   } catch (err) {
     console.log(err);
     return {

@@ -8,6 +8,7 @@ const loadQuiz = async (id: string): Promise<Quiz> => {
     TableName: process.env.TABLE_NAME!,
     Key: {
       PK: createQuizPrimaryKey(id),
+      SK: 'CREATED',
     },
   });
 

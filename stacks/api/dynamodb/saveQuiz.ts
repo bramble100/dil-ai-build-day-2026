@@ -7,6 +7,7 @@ const saveQuiz = async (quiz: Quiz): Promise<PutCommandOutput> => {
     TableName: process.env.TABLE_NAME!,
     Item: {
       PK: createQuizPrimaryKey(quiz.id),
+      SK: 'CREATED',
       topic: quiz.topic,
       difficulty: quiz.difficulty,
       questions: quiz.questions,

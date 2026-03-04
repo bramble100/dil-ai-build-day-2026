@@ -59,16 +59,16 @@ Resources:
           Type: Api
           Properties:
             Path: /{id}
-            Method: GET
+            Method: get
         SubmitAnswers:
           Type: Api
           Properties:
-            Path: /submit
+            Path: /{id}/submit
             Method: get
         EvaluateAnswers:
           Type: Api
           Properties:
-            Path: /evaluate
+            Path: /{id}/evaluate
             Method: get
         HealthCheck:
           Type: Api

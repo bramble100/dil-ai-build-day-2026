@@ -23,9 +23,12 @@ export interface Question {
   explanation?: string; // some markdwon text, max 1000 characters
 }
 
-export interface QuestionUserResponse {
+export interface QuizUserSubmission {
   quizId: string; // guid v7
+  answers: QuestionUserSubmission[];
+}
+
+export interface QuestionUserSubmission {
   questionId: string; // guid v7
   selectedChoice: ChoiceKey;
-  isCorrect: boolean;
 }

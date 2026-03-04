@@ -4,6 +4,9 @@ import { getCorsHeaders } from './cors';
 export const ok = (event: APIGatewayProxyEvent, body?: unknown): APIGatewayProxyResult =>
   jsonResponse(event, 200, body);
 
+export const badRequest = (event: APIGatewayProxyEvent, path: string): APIGatewayProxyResult =>
+  textResponse(event, 400, path);
+
 export const notFound = (event: APIGatewayProxyEvent, path: string): APIGatewayProxyResult =>
   textResponse(event, 404, path);
 

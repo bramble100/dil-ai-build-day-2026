@@ -12,8 +12,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     const routes: Record<string, () => any> = {
       '/create': () => createHandler(event),
       '/{id}': () => getByIdHandler(event),
-      '/submit': () => submitHandler(event),
-      '/evaluate': () => evaluateHandler(event),
+      '/{id}/submit': () => submitHandler(event),
+      '/{id}/evaluate': () => evaluateHandler(event),
       '/healthz': () => healthCheckHandler(event),
     };
 

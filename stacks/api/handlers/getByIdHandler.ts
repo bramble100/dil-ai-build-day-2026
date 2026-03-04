@@ -3,10 +3,10 @@ import loadQuiz from '../dynamodb/loadQuiz';
 import { notFound, ok } from '../responses';
 
 export const getByIdHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const id = event.pathParameters?.id;
+  const quizId = event.pathParameters?.id;
 
-  if (id) {
-    const quiz = await loadQuiz(id);
+  if (quizId) {
+    const quiz = await loadQuiz(quizId);
 
     return ok(event, { quiz });
   }

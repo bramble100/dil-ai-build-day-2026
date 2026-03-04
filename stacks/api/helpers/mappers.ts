@@ -1,4 +1,4 @@
-import { Quiz, Difficulty, Question, ChoiceKey } from '../types';
+import { Quiz, Difficulty, Question, ChoiceKey, QuizUserSubmission, QuestionUserSubmission } from '../types';
 
 const isDifficulty = (value: string): value is Difficulty => {
   return ['beginner', 'intermediate', 'advanced', 'expert'].includes(value);
@@ -32,5 +32,19 @@ export const mapToQuiz = (raw: any): Quiz => {
     topic: raw.topic,
     difficulty: raw.difficulty,
     questions,
+  };
+};
+
+const mapToQuestionUserSubmission = (raw: any): QuestionUserSubmission => {
+  return {
+    questionId: raw.questionId,
+    selectedChoice: raw.selectedChoice,
+  };
+};
+
+export const mapToQuizUserSubmission = (raw: any): QuizUserSubmission => {
+  return {
+    quizId: raw.quizId,
+    answers: raw.selectedChoices.map(mapToQuestionUserSubmission),
   };
 };

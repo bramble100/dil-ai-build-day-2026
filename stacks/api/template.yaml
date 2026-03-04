@@ -59,7 +59,7 @@ Resources:
           Type: Api
           Properties:
             Path: /{id}
-            Method: GET
+            Method: get
         SubmitAnswers:
           Type: Api
           Properties:

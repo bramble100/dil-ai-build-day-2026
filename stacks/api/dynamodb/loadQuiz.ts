@@ -1,5 +1,5 @@
 import { GetCommand } from '@aws-sdk/lib-dynamodb';
-import { mapToQuiz } from '../helpers/mapToQuiz';
+import { mapToQuiz } from '../helpers/mappers';
 import { Quiz } from '../types';
 import { createQuizPrimaryKey, sendGetCommand } from './dynamo';
 

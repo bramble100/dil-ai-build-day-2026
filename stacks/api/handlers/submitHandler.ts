@@ -4,8 +4,10 @@ import { mapToQuizUserSubmission } from '../helpers/mappers';
 import { saveUserSubmission } from '../dynamodb/saveUserSubmission';
 
 const submitHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const quizId = event.pathParameters?.id;
+
   const submission = {
-    quizId: 'c10c8750-976c-4cea-bc27-2bdb21a3e0ba',
+    quizId,
     answers: [
       { questionId: 'aeabd6d2-7782-40a9-83e6-885c09e9bdf3', selectedChoice: 'A' },
       { questionId: 'd78116ff-62be-4019-a95a-355586f2ec09', selectedChoice: 'B' },

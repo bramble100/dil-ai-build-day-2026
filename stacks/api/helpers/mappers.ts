@@ -45,6 +45,6 @@ const mapToQuestionUserSubmission = (raw: any): QuestionUserSubmission => {
 export const mapToQuizUserSubmission = (raw: any): QuizUserSubmission => {
   return {
     quizId: raw.quizId,
-    answers: raw.answers.map(mapToQuestionUserSubmission),
+    answers: raw.selectedChoices.map(mapToQuestionUserSubmission),
   };
 };

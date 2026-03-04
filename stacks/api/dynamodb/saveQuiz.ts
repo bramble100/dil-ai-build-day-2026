@@ -1,6 +1,6 @@
 import { PutCommandOutput, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { Quiz } from '../types';
-import { createQuizPrimaryKey, docClient } from './dynamo';
+import { createQuizPrimaryKey, sendPutCommand } from './dynamo';
 
 const saveQuiz = async (quiz: Quiz): Promise<PutCommandOutput> => {
   const command = new PutCommand({
@@ -14,7 +14,7 @@ const saveQuiz = async (quiz: Quiz): Promise<PutCommandOutput> => {
     },
   });
 
-  return await docClient.send(command);
+  return await sendPutCommand(command);
 };
 
 export default saveQuiz;

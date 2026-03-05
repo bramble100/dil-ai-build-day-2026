@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/validator/sam_schema/schema.json
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: API Gateway + Lambda
@@ -53,13 +54,15 @@ Resources:
               Action:
                 - bedrock:InvokeModel
                 - bedrock:InvokeModelWithResponseStream
+                - aws-marketplace:Subscribe
+                - aws-marketplace:ViewSubscriptions
               Resource: '*'
       Events:
         CreateQuiz:
           Type: Api
           Properties:
             Path: /create
-            Method: get
+            Method: post
         GetQuizById:
           Type: Api
           Properties:
@@ -79,6 +82,11 @@ Resources:
           Type: Api
           Properties:
             Path: /healthz
+            Method: get
+        HealthCheckBedrock:
+          Type: Api
+          Properties:
+            Path: /healthz/bedrock
             Method: get
     Metadata:
       BuildMethod: esbuild

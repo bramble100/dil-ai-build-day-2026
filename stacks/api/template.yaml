@@ -49,6 +49,11 @@ Resources:
                 - dynamodb:UpdateItem
                 - dynamodb:Query
               Resource: !Ref QuizTableArn
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:InvokeModelWithResponseStream
+              Resource: '*'
       Events:
         CreateQuiz:
           Type: Api

@@ -5,7 +5,10 @@ export function Home() {
   return (
     <div className={styles.home}>
       <h1>Quiz app</h1>
-      <Link to="/health">Check API</Link>
+      <nav className={styles.nav}>
+        <Link to="/quiz">Create Quiz</Link>
+        <Link to="/health">Check API</Link>
+      </nav>
     </div>
   );
 }

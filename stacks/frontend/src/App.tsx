@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router";
 import { Home } from "./pages/Home";
 import { Health } from "./pages/Health";
+import { Quiz } from "./pages/Quiz";
 import styles from "./App.module.css";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/health" element={<Health />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </div>
   );

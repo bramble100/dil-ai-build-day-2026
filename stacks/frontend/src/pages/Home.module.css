@@ -7,3 +7,8 @@
 .home h1 {
   margin-bottom: 1rem;
 }
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}

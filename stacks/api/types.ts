@@ -45,7 +45,7 @@ export interface QuizAnswerEvaluationDto {
   questionId: string; // guid v7
   questionText: string; // max 500 chars
   correctChoice: ChoiceKey;
-  selectedChoice?: ChoiceKey;
-  isCorrect: boolean;
+  selectedChoice?: ChoiceKey; // user can skip it
+  isCorrect: boolean; // false if user has not answered the question
   explanation: string; // max 1000 characters
 }

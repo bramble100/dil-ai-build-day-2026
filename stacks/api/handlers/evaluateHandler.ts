@@ -3,6 +3,7 @@ import { badRequest, notFound, ok } from '../responses';
 import loadQuiz from '../dynamodb/loadQuiz';
 import loadSubmissions from '../dynamodb/loadSubmissions';
 import { QuizEvaluationDto } from '../types';
+import { createEvaluation } from '../bedrock/createEvaluation';
 
 const evaluateHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const quizId = event.pathParameters?.id;
@@ -20,6 +21,7 @@ const evaluateHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayP
     topic: quiz.topic,
     difficulty: quiz.difficulty,
     correctAnswerCount: 0,
+    verdict: '',
     evaluatedAnswers: quiz.questions.map((q) => {
       return {
         questionId: q.id,
@@ -45,6 +47,8 @@ const evaluateHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayP
       }
     }
   }
+
+  // evaluation.verdict = await createEvaluation(JSON.stringify(evaluation));
 
   return ok(event, { evaluation });
 };

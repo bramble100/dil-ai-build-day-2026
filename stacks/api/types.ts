@@ -39,6 +39,7 @@ export interface QuizEvaluationDto {
   difficulty: Difficulty;
   correctAnswerCount: number;
   evaluatedAnswers: QuizAnswerEvaluationDto[];
+  verdict: string;
 }
 
 export interface QuizAnswerEvaluationDto {

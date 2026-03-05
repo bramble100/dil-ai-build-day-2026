@@ -20,7 +20,7 @@ export interface Question {
   questionText: string; // max 500 chars
   choices: Record<ChoiceKey, string>;
   correctChoice: ChoiceKey;
-  explanation?: string; // some markdwon text, max 1000 characters
+  explanation: string; // max 1000 characters
 }
 
 export interface QuizUserSubmission {
@@ -37,13 +37,15 @@ export interface QuizEvaluationDto {
   quizId: string; // guid v7
   topic: string; // max 100 characters
   difficulty: Difficulty;
+  correctAnswerCount: number;
   evaluatedAnswers: QuizAnswerEvaluationDto[];
 }
 
 export interface QuizAnswerEvaluationDto {
   questionId: string; // guid v7
+  questionText: string; // max 500 chars
   correctChoice: ChoiceKey;
   selectedChoice?: ChoiceKey;
   isCorrect: boolean;
-  explanation?: string; // some markdwon text, max 1000 characters
+  explanation: string; // max 1000 characters
 }

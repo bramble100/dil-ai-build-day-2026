@@ -72,7 +72,7 @@ Resources:
           Type: Api
           Properties:
             Path: /{id}/submit
-            Method: get
+            Method: post
         EvaluateAnswers:
           Type: Api
           Properties:

@@ -430,6 +430,20 @@ function QuizResults({
         </div>
       </div>
 
+      {/* AI Verdict */}
+      {evaluation.verdict && (
+        <div className={styles.verdictCard}>
+          <h3 className={styles.verdictHeading}>
+            <span aria-hidden="true">✦</span> AI Verdict
+          </h3>
+          <div className={styles.verdictBody}>
+            {evaluation.verdict.split("\n\n").map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Result Header */}
       <div className={styles.resultHeader}>
         <div>

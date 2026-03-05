@@ -44,6 +44,7 @@ export type QuizEvaluation = {
   correctAnswerCount: number;
   totalQuestions?: number;
   overallFeedback?: string;
+  verdict?: string;
   evaluatedAnswers: QuizAnswerEvaluation[];
 };
 

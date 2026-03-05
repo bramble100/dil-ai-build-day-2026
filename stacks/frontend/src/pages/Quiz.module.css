@@ -631,6 +631,54 @@
   }
 }
 
+/* ─── AI Verdict Card ──────────────────────────────── */
+.verdictCard {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.verdictCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--ai-gradient-loop);
+  background-size: 300% 100%;
+  animation: rainbow-shift 5s ease infinite;
+}
+
+.verdictHeading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: var(--ai-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.verdictBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.verdictBody p {
+  margin: 0;
+}
+
 /* ─── Result Header ─────────────────────────────────── */
 .resultHeader {
   display: flex;

@@ -7,36 +7,38 @@
  * 3. http://localhost:3000 in dev mode
  */
 
-let cachedBase: string | null = null;
+// const cachedBase: string | null = null;
 
 export async function getApiBase(): Promise<string> {
-  if (cachedBase !== null) {
-    return cachedBase;
-  }
+  return "https://def0x0d7m3.execute-api.eu-central-1.amazonaws.com/Prod";
 
-  const fromEnv = import.meta.env.VITE_API_BASE_URL;
-  if (fromEnv) {
-    cachedBase = fromEnv;
-    return cachedBase;
-  }
+  // if (cachedBase !== null) {
+  //   return cachedBase;
+  // }
 
-  if (import.meta.env.DEV) {
-    cachedBase = "http://localhost:3000";
-    return cachedBase;
-  }
+  // const fromEnv = import.meta.env.VITE_API_BASE_URL;
+  // if (fromEnv) {
+  //   cachedBase = fromEnv;
+  //   return cachedBase;
+  // }
 
-  try {
-    const res = await fetch("./config.json");
+  // if (import.meta.env.DEV) {
+  //   cachedBase = "http://localhost:3000";
+  //   return cachedBase;
+  // }
 
-    if (!res.ok) {
-      throw new Error(`config.json returned ${res.status}`);
-    }
+  // try {
+  //   const res = await fetch("./config.json");
 
-    const config = await res.json();
-    cachedBase = config.apiBaseUrl ?? "";
-  } catch {
-    cachedBase = "";
-  }
+  //   if (!res.ok) {
+  //     throw new Error(`config.json returned ${res.status}`);
+  //   }
 
-  return cachedBase ?? "";
+  //   const config = await res.json();
+  //   cachedBase = config.apiBaseUrl ?? "";
+  // } catch {
+  //   cachedBase = "";
+  // }
+
+  // return cachedBase ?? "";
 }

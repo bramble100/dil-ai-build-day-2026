@@ -1,86 +1,757 @@
+/* ─── Page Container ────────────────────────────────── */
 .quiz {
-  max-width: 640px;
+  max-width: var(--content-narrow);
   margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
 }
 
-.back {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: inherit;
-  text-decoration: none;
-  font-size: 0.9rem;
-  opacity: 0.7;
+/* ─── Form Container ───────────────────────────────── */
+.formContainer {
+  animation: fadeInUp var(--transition-slow) ease-out;
 }
 
-.back:hover {
-  opacity: 1;
+.formHeader {
+  margin-bottom: 1.75rem;
 }
 
-.quiz h1 {
-  margin-bottom: 0.5rem;
+.formHeader h1 {
+  margin-bottom: 0.375rem;
 }
 
 .subtitle {
-  color: #6b5d4e;
-  margin-bottom: 2rem;
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
 }
 
+/* ─── Form Card ─────────────────────────────────────── */
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Subtle animated gradient top accent */
+.form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--ai-gradient-loop);
+  background-size: 300% 100%;
+  animation: rainbow-shift 5s ease infinite;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
-.field label {
-  font-size: 0.9rem;
+.label {
+  font-size: 0.8125rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
 }
 
-.field input[type="text"],
-.field select {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid #d9cfc3;
-  border-radius: 8px;
+/* ─── Text Input ────────────────────────────────────── */
+.input {
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  background: #fff;
+  font-family: inherit;
+  color: var(--color-text);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  /* Prevent placeholder overflow on narrow screens */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Difficulty Selector ───────────────────────────── */
+.difficultyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.difficultyOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  background: var(--color-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.difficultyOption:hover {
+  background: var(--color-primary-light);
+}
+
+.difficultyOptionActive {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  box-shadow: 0 0 0 2px var(--color-primary-glow);
+}
+
+.difficultyIcon {
+  font-size: 1.25rem;
+}
+
+.difficultyLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+@media (min-width: 480px) {
+  .difficultyGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── Range Slider ──────────────────────────────────── */
+.countValue {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.range {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--color-surface-border);
+  border-radius: 3px;
   outline: none;
 }
 
-.field input[type="text"]:focus,
-.field select:focus {
-  border-color: #3d7a4f;
+.range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
 }
 
-.field input[type="range"] {
-  width: 100%;
-  accent-color: #3d7a4f;
+.range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .rangeLabels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
-  opacity: 0.6;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
 }
 
-.submit {
-  padding: 0.75rem 1.5rem;
-  background: #3d7a4f;
-  color: #fff;
+/* ─── Magic Button (Generate / Evaluate) ────────────── */
+.magicBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.9375rem 1.5rem;
+  border-radius: var(--radius-md);
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
+  overflow: hidden;        /* clips the inner sweep */
+  isolation: isolate;
+  transition: transform var(--transition-fast);
 }
 
-.submit:hover {
-  background: #2e5e3c;
+/* Soft indigo-to-violet gradient background */
+.magicBtnBg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #5b5fea 0%, #7c3aed 50%, #a21caf 100%);
+  background-size: 200% 200%;
+  animation: rainbow-shift 6s ease infinite;
+}
+
+/* Outer cycling glow */
+.magicBtn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-md) + 2px);
+  animation: glow-cycle 3s ease-in-out infinite;
+  z-index: -1;
+  opacity: 0.9;
+  transition: opacity var(--transition-base), animation-duration var(--transition-base);
+}
+
+.magicBtn:hover::before {
+  opacity: 1;
+  animation-duration: 1.5s;
+}
+
+/* Inner sweeping shimmer — clipped by overflow:hidden */
+.magicBtn::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 35%;
+  height: 140%;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: btn-shimmer-sweep 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.magicBtn:hover {
+  transform: translateY(-1px);
+}
+
+.magicBtn:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.magicBtnContent {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ─── Spinner ───────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ─── Loading Hint ──────────────────────────────────── */
+.loadingHint {
+  margin-top: 1.25rem;
+  text-align: center;
+  animation: fadeIn var(--transition-base) ease-out;
+}
+
+.loadingHint p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Outline Button ────────────────────────────────── */
+.outlineBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.outlineBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.outlineBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Error View ────────────────────────────────────── */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 3rem 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp var(--transition-slow) ease-out;
+}
+
+.errorIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.errorMessage {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  max-width: 400px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   QUIZ TAKING VIEW
+   ═══════════════════════════════════════════════════════ */
+
+.quizContainer {
+  animation: fadeInUp var(--transition-slow) ease-out;
+}
+
+.quizHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quizHeader h1 {
+  margin-bottom: 0.125rem;
+}
+
+.quizMeta {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .quizHeader {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+/* ─── Question List ─────────────────────────────────── */
+.questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.questionCard {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.questionCard:hover {
+  border-color: rgba(99, 102, 241, 0.15);
+}
+
+.questionHeader {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.questionNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 50%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.questionHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.questionIndex {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.questionText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* ─── Choices (Interactive / Selectable) ────────────── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--color-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: var(--color-text);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.choice:hover:not(:disabled) {
+  background: var(--color-primary-light);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.choice:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.choiceSelected {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-glow);
+}
+
+.choiceKey {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-surface-border);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.choiceKeySelected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ─── Evaluate Bar ──────────────────────────────────── */
+.evaluateBar {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.evaluateHint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESULTS VIEW
+   ═══════════════════════════════════════════════════════ */
+
+.resultContainer {
+  animation: fadeInUp var(--transition-slow) ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─── Score Card ────────────────────────────────────── */
+.scoreCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.scoreCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--ai-gradient-loop);
+  background-size: 300% 100%;
+  animation: rainbow-shift 5s ease infinite;
+}
+
+.scoreRing {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.scoreRingSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.scoreRingProgress {
+  transition: stroke-dasharray 1s ease-out;
+}
+
+.scoreRingText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scorePct {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: var(--ai-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.scoreInfo h2 {
+  margin-bottom: 0.375rem;
+}
+
+.scoreFeedback {
+  font-size: 0.9375rem;
+  max-width: 440px;
+}
+
+@media (min-width: 480px) {
+  .scoreCard {
+    flex-direction: row;
+    text-align: left;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+  }
+
+  .scoreRing {
+    flex-shrink: 0;
+  }
+}
+
+/* ─── Result Header ─────────────────────────────────── */
+.resultHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resultHeader h2 {
+  margin-bottom: 0.125rem;
+}
+
+@media (min-width: 640px) {
+  .resultHeader {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+/* ─── Result Question Cards ─────────────────────────── */
+.questionCardCorrect {
+  border-left: 3px solid var(--color-success);
+}
+
+.questionCardIncorrect {
+  border-left: 3px solid var(--color-error);
+}
+
+.questionNumberCorrect {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.questionNumberIncorrect {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+/* ─── Result Choices ────────────────────────────────── */
+.choiceResult {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--color-bg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.choiceCorrect {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+.choiceIncorrect {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+.choiceKeyCorrect {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+.choiceKeyIncorrect {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+}
+
+.choiceText {
+  flex: 1;
+}
+
+.choiceTag,
+.choiceTagWrong {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.125rem 0.5rem;
+  border-radius: 100px;
+  align-self: center;
+}
+
+.choiceTag {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.choiceTagWrong {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+/* ─── Explanation ───────────────────────────────────── */
+.explanation {
+  margin-top: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: var(--color-accent-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.explanation strong {
+  color: var(--color-text);
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (min-width: 640px) {
+  .form {
+    padding: 2rem;
+  }
+
+  .questionCard {
+    padding: 1.5rem;
+  }
 }

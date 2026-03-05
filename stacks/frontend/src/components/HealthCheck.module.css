@@ -1,8 +1,188 @@
-.output {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #111;
-  color: #0f0;
-  overflow-x: auto;
-  text-align: left;
+.container {
+  width: 100%;
+}
+
+/* ─── Card ──────────────────────────────────────────── */
+.card {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ─── Card Header ───────────────────────────────────── */
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.serviceInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.serviceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-md);
+  font-size: 1.125rem;
+}
+
+.serviceName {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.serviceEndpoint {
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 480px) {
+  .cardHeader {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ─── Badges ────────────────────────────────────────── */
+.badgeSuccess,
+.badgeError,
+.badgeIdle,
+.badgeLoading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.badgeSuccess {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.badgeError {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.badgeIdle {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+.badgeLoading {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ─── Spinner ───────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-primary-glow);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ─── Details ───────────────────────────────────────── */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  background: var(--color-success-bg);
+  border-radius: var(--radius-sm);
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detailLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.detailValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+/* ─── Error Box ─────────────────────────────────────── */
+.errorBox {
+  padding: 0.875rem 1rem;
+  background: var(--color-error-bg);
+  border-radius: var(--radius-sm);
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.errorBox p {
+  font-size: 0.875rem;
+  color: var(--color-error);
+  line-height: 1.5;
+}
+
+/* ─── Button ────────────────────────────────────────── */
+.checkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.checkBtn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.checkBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 1.5rem;
+  }
 }

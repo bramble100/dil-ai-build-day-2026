@@ -14,6 +14,9 @@ const loadSubmissions = async (quizId: string): Promise<QuizUserSubmission> => {
 
   try {
     const result = await sendGetCommand(command);
+    if (!result.Item) {
+      return { quizId, answers: [] };
+    }
     return mapToQuizUserSubmission(result.Item);
   } catch (err) {
     console.error(err);

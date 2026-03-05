@@ -19,7 +19,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
       '/healthz/bedrock': () => healthCheckBedrockHandler(event),
     };
 
-    return routes[(event as any).resource ?? event.path]?.() ?? notFound(event, event.path);
+    const handler = routes[(event as any).resource ?? event.path];
+    return await (handler ? handler() : notFound(event, event.path));
   } catch (err) {
     console.log(err);
     return {

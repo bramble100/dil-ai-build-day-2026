@@ -1,20 +1,28 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { ok } from '../responses';
-import { mapToQuizUserSubmission } from '../helpers/mappers';
+import { badRequest, ok } from '../responses';
 import { saveUserSubmission } from '../dynamodb/saveUserSubmission';
+import { QuizUserSubmission } from '../types';
 
 const submitHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const quizId = event.pathParameters?.id;
+  if (!quizId) {
+    return badRequest(event, event.path);
+  }
 
-  const submission = {
+  const body = JSON.parse(event.body || '{}');
+  if (!Array.isArray(body.answers)) {
+    return badRequest(event, event.path);
+  }
+
+  const submission: QuizUserSubmission = {
     quizId,
-    answers: [
-      { questionId: 'aeabd6d2-7782-40a9-83e6-885c09e9bdf3', selectedChoice: 'A' },
-      { questionId: 'd78116ff-62be-4019-a95a-355586f2ec09', selectedChoice: 'B' },
-      { questionId: 'a7d890c5-aaa7-409a-a31b-87a8b86cdbb4', selectedChoice: 'C' },
-    ],
+    answers: body.answers.map((a: { questionId: string; selectedChoice: string }) => ({
+      questionId: a.questionId,
+      selectedChoice: a.selectedChoice,
+    })),
   };
-  const output = await saveUserSubmission(mapToQuizUserSubmission(submission));
+
+  const output = await saveUserSubmission(submission);
   return ok(event, { output });
 };
 

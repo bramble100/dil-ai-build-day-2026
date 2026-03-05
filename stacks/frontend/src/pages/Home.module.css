@@ -1,14 +1,362 @@
+/* ─── Page Container ────────────────────────────────── */
 .home {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding-bottom: 2rem;
 }
 
-.home h1 {
+.sectionLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ─── Hero Section ──────────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  padding: 2rem 0 1rem;
+  animation: fadeInUp var(--transition-slow) ease-out;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.heroBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: 680px;
+}
+
+.heroGradient {
+  display: block;
+  background: var(--ai-gradient-loop);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-shift 5s ease infinite;
+}
+
+.heroDescription {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  max-width: 520px;
+  color: var(--color-text-secondary);
+}
+
+/* ─── CTA Buttons ───────────────────────────────────── */
+.heroCta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (min-width: 480px) {
+  .heroCta {
+    flex-direction: row;
+    max-width: none;
+    width: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .hero {
+    padding: 3rem 0 1.5rem;
+  }
+}
+
+/* Magic CTA button — soft AI gradient + orbiting glow + inner sweep */
+.ctaMagic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9375rem 2rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  overflow: hidden;        /* clips the inner sweep */
+  isolation: isolate;
+  transition: transform var(--transition-fast);
+}
+
+/* Soft indigo-to-violet gradient background */
+.ctaMagicBg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #5b5fea 0%, #7c3aed 50%, #a21caf 100%);
+  background-size: 200% 200%;
+  animation: rainbow-shift 6s ease infinite;
+  z-index: 0;
+}
+
+/* Outer glow: cycling colour, no rainbow blur */
+.ctaMagic::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-md) + 2px);
+  animation: glow-cycle 3s ease-in-out infinite;
+  z-index: -1;
+  transition: opacity var(--transition-base);
+  opacity: 0.9;
+}
+
+.ctaMagic:hover::before {
+  opacity: 1;
+  animation-duration: 1.5s;
+}
+
+/* Inner sweeping shimmer — clipped by overflow:hidden */
+.ctaMagic::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 35%;
+  height: 140%;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: btn-shimmer-sweep 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ctaMagicContent {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.ctaMagic:hover {
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.ctaSecondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ─── Features Section ──────────────────────────────── */
+.features {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+.featureCard {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.featureCard:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-md);
+  font-size: 1.25rem;
   margin-bottom: 1rem;
 }
 
-.nav {
+.featureCardTitle {
+  font-size: 1.0625rem;
+  margin-bottom: 0.375rem;
+}
+
+.featureCardDescription {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .featureGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* ─── Steps Section ─────────────────────────────────── */
+.steps {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Mobile: single column stack; Desktop: equal-width grid */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.step:hover {
+  border-color: rgba(99, 102, 241, 0.15);
+  box-shadow: var(--shadow-sm);
+}
+
+.stepIcon {
+  font-size: 1.75rem;
+}
+
+.stepNumber {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  padding: 0.1875rem 0.625rem;
+  border-radius: 100px;
+}
+
+.stepLabel {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+}
+
+/* Arrow connector between steps */
+.stepArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  /* Rotate to point down on mobile */
+  transform: rotate(90deg);
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  /* 3 equal columns with arrow spacers between them */
+  .stepsGrid {
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 0;
+  }
+
+  .step {
+    padding: 1.5rem 1rem;
+    height: 100%;
+  }
+
+  .stepArrow {
+    transform: none;
+    padding: 0 0.625rem;
+    font-size: 1.125rem;
+  }
+}
+
+/* ─── Bottom CTA ────────────────────────────────────── */
+.bottomCta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 1rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-xl);
+}
+
+.bottomCtaTitle {
+  font-size: clamp(1.25rem, 3vw, 1.625rem);
+}
+
+.bottomCtaDescription {
+  font-size: 0.9375rem;
+  max-width: 420px;
+  color: var(--color-text-secondary);
 }

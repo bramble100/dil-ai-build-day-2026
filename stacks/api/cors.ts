@@ -11,7 +11,7 @@ const ALLOWED_ORIGINS = (process.env.CORS_ALLOWED_ORIGINS ?? '')
  */
 export function getCorsHeaders(event: APIGatewayProxyEvent): Record<string, string> {
   const base: Record<string, string> = {
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   };
 

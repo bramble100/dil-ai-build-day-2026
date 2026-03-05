@@ -1,5 +1,5 @@
 import { InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
-import { bedrockClient } from './bedrock';
+import { bedrockClient, MODEL_ID } from './bedrock';
 
 const buildPrompt = (json: string): string => `Please create a verdict based on the results of this quiz. 
 Do not add overview and do not break down the results to individual questions. 
@@ -8,7 +8,7 @@ ${json}`;
 
 export const createEvaluation = async (json: string): Promise<string> => {
   const command = new InvokeModelCommand({
-    modelId: 'anthropic.claude-sonnet-4-6',
+    modelId: MODEL_ID,
     contentType: 'application/json',
     accept: 'application/json',
     body: JSON.stringify({

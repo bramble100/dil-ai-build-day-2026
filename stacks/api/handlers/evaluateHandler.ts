@@ -10,12 +10,13 @@ const evaluateHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayP
     return badRequest(event, event.path);
   }
 
-  const quiz = await loadQuiz(quizId);
-  const submissions = await loadSubmissions(quizId);
+  const questions = (await loadQuiz(quizId)).questions;
+  const submissions = (await loadSubmissions(quizId)).answers;
 
-  const totalCount = quiz.questions.length;
-  const correctCount = 2;
-  return ok(event, { submissions, ratio: correctCount / totalCount });
+  const totalQuestionsCount = questions.length;
+  const correctAnswersCount = 2;
+
+  return ok(event, { submissions, ratio: correctAnswersCount / totalQuestionsCount });
 };
 
 export default evaluateHandler;

@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { ok } from '../responses';
 import { Difficulty, QuizConfig } from '../types';
 import { createQuiz } from '../bedrock/createQuiz';
+import saveQuiz from '../dynamodb/saveQuiz';
 
 const DEFAULT_CONFIG: QuizConfig = {
   topic: 'AWS Lambda',
@@ -19,7 +20,7 @@ const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPro
   };
 
   const quiz = await createQuiz(config);
-  console.log('[createHandler] Generated quiz:', JSON.stringify(quiz, null, 2));
+  await saveQuiz(quiz);
 
   return ok(event, { quiz });
 };

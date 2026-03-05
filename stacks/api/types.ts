@@ -32,3 +32,17 @@ export interface QuestionUserSubmission {
   questionId: string; // guid v7
   selectedChoice: ChoiceKey;
 }
+
+export interface QuizEvaluationDto {
+  quizId: string; // guid v7
+  topic: string; // max 100 characters
+  difficulty: Difficulty;
+  evaluatedAnswers: QuizAnswerEvaluationDto[];
+}
+
+export interface QuizAnswerEvaluationDto {
+  questionId: string; // guid v7
+  correctChoice: ChoiceKey;
+  selectedChoice: ChoiceKey;
+  isCorrect: boolean;
+}

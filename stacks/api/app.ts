@@ -31,6 +31,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
       },
       body: JSON.stringify({
         message: 'some error happened',
+        event,
       }),
     };
   }

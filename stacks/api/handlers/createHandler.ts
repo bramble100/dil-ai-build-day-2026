@@ -10,7 +10,7 @@ const defaultConfig: QuizConfig = {
   questionCount: 20,
 };
 
-export const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+const createHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const config = {
     ...defaultConfig,
     ...event.queryStringParameters,

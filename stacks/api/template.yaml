@@ -53,6 +53,8 @@ Resources:
               Action:
                 - bedrock:InvokeModel
                 - bedrock:InvokeModelWithResponseStream
+                - aws-marketplace:Subscribe
+                - aws-marketplace:ViewSubscriptions
               Resource: '*'
       Events:
         CreateQuiz:
@@ -79,6 +81,11 @@ Resources:
           Type: Api
           Properties:
             Path: /healthz
+            Method: get
+        HealthCheckBedrock:
+          Type: Api
+          Properties:
+            Path: /healthz/bedrock
             Method: get
     Metadata:
       BuildMethod: esbuild

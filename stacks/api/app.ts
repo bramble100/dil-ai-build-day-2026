@@ -5,6 +5,7 @@ import evaluateHandler from './handlers/evaluateHandler';
 import getByIdHandler from './handlers/getByIdHandler';
 import healthCheckHandler from './handlers/healthCheckHandler';
 import submitHandler from './handlers/submitHandler';
+import healthCheckBedrockHandler from './bedrock/healthCheckBedrockHandler';
 import { notFound } from './responses';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -15,6 +16,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
       '/{id}/submit': () => submitHandler(event),
       '/{id}/evaluate': () => evaluateHandler(event),
       '/healthz': () => healthCheckHandler(event),
+      '/healthz/bedrock': () => healthCheckBedrockHandler(event),
     };
 
     return routes[(event as any).resource ?? event.path]?.() ?? notFound(event, event.path);

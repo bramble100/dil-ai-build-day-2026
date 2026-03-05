@@ -43,6 +43,7 @@ export interface QuizEvaluationDto {
 export interface QuizAnswerEvaluationDto {
   questionId: string; // guid v7
   correctChoice: ChoiceKey;
-  selectedChoice: ChoiceKey;
+  selectedChoice?: ChoiceKey;
   isCorrect: boolean;
+  explanation?: string; // some markdwon text, max 1000 characters
 }

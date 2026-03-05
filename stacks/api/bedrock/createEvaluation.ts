@@ -20,7 +20,6 @@ export const createEvaluation = async (json: string): Promise<string> => {
 
   const response = await bedrockClient.send(command);
   const raw = JSON.parse(Buffer.from(response.body).toString('utf-8'));
-  const parsed = JSON.parse(raw.content[0].text);
 
-  return parsed;
+  return raw.content[0].text;
 };

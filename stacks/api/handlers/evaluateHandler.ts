@@ -48,7 +48,7 @@ const evaluateHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayP
     }
   }
 
-  // evaluation.verdict = await createEvaluation(JSON.stringify(evaluation));
+  evaluation.verdict = await createEvaluation(JSON.stringify(evaluation));
 
   return ok(event, { evaluation });
 };
